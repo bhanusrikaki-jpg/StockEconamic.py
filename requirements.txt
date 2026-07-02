@@ -1,0 +1,11 @@
+cloudscraper
+beautifulsoup4
+requests
+pyTelegramBotAPI
+pytz
+pandas
+groq
+yfinance
+fastapi
+uvicorn
+APScheduler
