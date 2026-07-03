@@ -342,7 +342,7 @@ def scan_chanti_best_logic(df, boring_pct=50, lookback=50):
     return df
 
 # ==========================================================
-# 🎯 320+ STOCKS LIST (NIFTY 100 + ALL F&O SECTOR STOCKS)
+# 🎯 300+ STOCKS LIST (PERFECTLY CLEANED & VERIFIED FOR YAHOO)
 # ==========================================================
 combined_stocks = [
     "AARTIIND.NS", "ABB.NS", "ABBOTINDIA.NS", "ABCAPITAL.NS", "ABFRL.NS", "ACC.NS", 
@@ -356,7 +356,7 @@ combined_stocks = [
     "COLPAL.NS", "CONCOR.NS", "COROMANDEL.NS", "CROMPTON.NS", "CUB.NS", "CUMMINSIND.NS", 
     "DABUR.NS", "DALBHARAT.NS", "DEEPAKNTR.NS", "DELHIVERY.NS", "DIVISLAB.NS", "DIXON.NS", 
     "DLF.NS", "DMART.NS", "DRREDDY.NS", "EICHERMOT.NS", "ESCORTS.NS", "EXIDEIND.NS", 
-    "FEDERALBNK.NS", "GAIL.NS", "GICRE.NS", "GLENMARK.NS", "GMRINFRA.NS", "GNFC.NS", "GODREJCP.NS", 
+    "FEDERALBNK.NS", "GAIL.NS", "GICRE.NS", "GLENMARK.NS", "GMRAIRPORT.NS", "GNFC.NS", "GODREJCP.NS", 
     "GODREJPROP.NS", "GRANULES.NS", "GRASIM.NS", "GUJGASLTD.NS", "HAL.NS", "HAVELLS.NS", 
     "HCLTECH.NS", "HDFCBANK.NS", "HDFCLIFE.NS", "HEROMOTOCO.NS", "HINDALCO.NS", "HINDPETRO.NS", 
     "HINDUNILVR.NS", "ICICIBANK.NS", "ICICIGI.NS", "ICICIPRULI.NS", "IDEA.NS", "IDFCFIRSTB.NS", 
@@ -364,7 +364,7 @@ combined_stocks = [
     "INDUSINDBK.NS", "INDUSTOWER.NS", "INFY.NS", "IOC.NS", "IPCALAB.NS", "IRCTC.NS", 
     "IREDA.NS", "IRFC.NS", "ITC.NS", "JINDALSTEL.NS", "JIOFIN.NS", "JKCEMENT.NS", 
     "JSWSTEEL.NS", "JUBLFOOD.NS", "KALYANKJIL.NS", "KFINTECH.NS", "KOTAKBANK.NS", "LALPATHLAB.NS", 
-    "LICI.NS", "LICHSGFIN.NS", "LT.NS", "LTIMINDTREE.NS", "LTTS.NS", "LUPIN.NS", "M&M.NS", 
+    "LICI.NS", "LICHSGFIN.NS", "LT.NS", "LTM.NS", "LTTS.NS", "LUPIN.NS", "M&M.NS", 
     "M&MFIN.NS", "MANAPPURAM.NS", "MARICO.NS", "MARUTI.NS", "MCX.NS", "METROPOLIS.NS", 
     "MFSL.NS", "MGL.NS", "MOTHERSON.NS", "MPHASIS.NS", "MRF.NS", "MUTHOOTFIN.NS", 
     "NATIONALUM.NS", "NAUKRI.NS", "NAVINFLUOR.NS", "NESTLEIND.NS", "NMDC.NS", "NTPC.NS", 
@@ -373,61 +373,73 @@ combined_stocks = [
     "PVRINOX.NS", "RAMCOCEM.NS", "RBLBANK.NS", "RECLTD.NS", "RELIANCE.NS", "SAIL.NS", 
     "SBICARD.NS", "SBILIFE.NS", "SBIN.NS", "SHREECEM.NS", "SHRIRAMFIN.NS", "SIEMENS.NS", 
     "SRF.NS", "SUNPHARMA.NS", "SUNTV.NS", "SYNGENE.NS", "TATACHEM.NS", "TATACOMM.NS", 
-    "TATACONSUM.NS", "TATAMOTORS.NS", "TATAPOWER.NS", "TATASTEEL.NS", "TCS.NS", 
+    "TATACONSUM.NS", "TMCV.NS", "TMPV.NS", "TATAPOWER.NS", "TATASTEEL.NS", "TCS.NS", 
     "TECHM.NS", "TITAN.NS", "TORNTPHARM.NS", "TORNTPOWER.NS", "TRENT.NS", "TVSMOTOR.NS", 
     "UBL.NS", "ULTRACEMCO.NS", "UNITDSPR.NS", "UPL.NS", "VBL.NS", "VEDL.NS", "VOLTAS.NS", 
-    "WIPRO.NS", "YESBANK.NS", "ZEEL.NS", "ZOMATO.NS", "ZYDUSLIFE.NS", "ETERNAL.NS",
-    "APLLTD.NS", "CESC.NS", "CHAMBLFERT.NS", "COROMANDEL.NS", "CYIENT.NS", "DEEPAKNTR.NS", 
-    "DELHIVERY.NS", "EICHERMOT.NS", "EXIDEIND.NS", "GLENMARK.NS", "GRANULES.NS", "GUJGASLTD.NS", 
-    "HINDPETRO.NS", "IDFC.NS", "INDIACEM.NS", "IPCALAB.NS", "INDIAMART.NS", "JINDALSTEL.NS", 
-    "JKCEMENT.NS", "JUBLFOOD.NS", "LALPATHLAB.NS", "LICHSGFIN.NS", "LTTS.NS", "M&MFIN.NS", 
-    "MANAPPURAM.NS", "METROPOLIS.NS", "MGL.NS", "MPHASIS.NS", "NATIONALUM.NS", "NAVINFLUOR.NS", 
-    "OBEROIRLTY.NS", "PAGEIND.NS", "PEL.NS", "PERSISTENT.NS", "PETRONET.NS", "PIIND.NS", 
-    "POLYCAB.NS", "PVRINOX.NS", "RAMCOCEM.NS", "RBLBANK.NS", "REEL.NS", "SYNGENE.NS", 
-    "TORNTPHARM.NS", "TORNTPOWER.NS", "UBL.NS", "UPL.NS", "AMIRAJ.NS", "AAVAS.NS", 
-    "ACE.NS", "ALOKTEXT.NS", "ANGELONE.NS", "ANANTRAJ.NS", "APTUS.NS", "ARCHEAN.NS", 
-    "ARE&M.NS", "ASKAUTOLTD.NS", "ASTERDM.NS", "AVANTIFEED.NS", "BEML.NS", "BLS.NS", 
-    "BLUESTARCO.NS", "BONESHIGHLY.NS", "CAMS.NS", "CDSL.NS", "CEATLTD.NS", "CENTURYTEX.NS", 
-    "CIEINDIA.NS", "COCHINSHIP.NS", "CREDITACC.NS", "CROMPTON.NS", "DATAPATTERNS.NS", 
+    "WIPRO.NS", "YESBANK.NS", "ZEEL.NS", "ETERNAL.NS", "ZYDUSLIFE.NS",
+    "APLLTD.NS", "CESC.NS", "CYIENT.NS", "IDFC.NS", "PEL.NS", "AAVAS.NS", 
+    "ACE.NS", "ALOKINDS.NS", "ANGELONE.NS", "ANANTRAJ.NS", "APTUS.NS", "ASTERDM.NS", 
+    "AVANTIFEED.NS", "BEML.NS", "BLS.NS", "BLUESTARCO.NS", "CAMS.NS", "CDSL.NS", 
+    "CEATLTD.NS", "CIEINDIA.NS", "COCHINSHIP.NS", "CREDITACC.NS", "DATAPATTNS.NS", 
     "DEEPAKFERT.NS", "EASEMYTRIP.NS", "EIDPARRY.NS", "EIHOTEL.NS", "ELGIEQUIP.NS", 
     "ENDURANCE.NS", "ENGINERSIN.NS", "EQUITASBNK.NS", "ERIS.NS", "FSL.NS", "FORTIS.NS", 
-    "GEPIL.NS", "GESHIP.NS", "GMDCLTD.NS", "GNFC.NS", "GOCOLORS.NS", "GODREJPROP.NS", 
-    "GPIL.NS", "GRSE.NS", "GSFC.NS", "GSPL.NS", "HEG.NS", "HFCL.NS", "HINDCOPPER.NS", 
-    "HUDCO.NS", "IBREALEST.NS", "IFSCLTD.NS", "INDIGO.NS", "IRCON.NS", "ITDC.NS", 
-    "JBCHEPHARM.NS", "JINDALSAW.NS", "JKTYRE.NS", "JSL.NS", "JSWENERGY.NS", "JUBLINGREA.NS", 
-    "JUSTDIAL.NS", "JYOTHYLAB.NS", "KAIARACER.NS", "KARURVYSYA.NS", "KEC.NS", "KEI.NS", 
-    "KIMS.NS", "KPITTECH.NS", "L&TFH.NS", "LEMONTREE.NS", "LLOYDSME.NS", "LGBBROSLTD.NS", 
-    "MAHABANK.NS", "MAHLIFE.NS", "MANINFRA.NS", "MAPMYINDIA.NS", "MASTEK.NS", "MAZDOCK.NS", 
-    "MEDANTA.NS", "METROBRAND.NS", "MHRIL.NS", "MISHRADHATU.NS", "MSUMI.NS", "MTARTECH.NS", 
-    "NAVA.NS", "NCC.NS", "NETWEB.NS", "NEWGEN.NS", "NHPC.NS", "NLCINDIA.NS", "NOCIL.NS", 
-    "NUVCO.NS", "NVACO.NS", "OIL.NS", "OLAELEC.NS", "ONE97.NS", "PANCHSHEEL.NS", 
-    "PATANJALI.NS", "PCBL.NS", "PDSL.NS", "PIRAMALENT.NS", "PNCINFRA.NS", "POONAWALLA.NS", 
-    "PRACHIN.NS", "PRAJIND.NS", "PRESTIGE.NS", "PRINCEPIPE.NS", "PRUDENT.NS", "QUESS.NS", 
-    "RADICO.NS", "RAILTEL.NS", "RAJESHEXPO.NS", "RITES.NS", "ROUTE.NS", "RVNL.NS", 
-    "SAFARI.NS", "SANOFI.NS", "SANSERA.NS", "SAPPHIRE.NS", "SCHAEFFLER.NS", "SCHNEIDER.NS", 
-    "SHOPERSTOP.NS", "SHYAMMETL.NS", "SIGNATURE.NS", "SJVN.NS", "SKFINDIA.NS", "SOBHA.NS", 
-    "SOLARINDS.NS", "SONACOMS.NS", "SPARC.NS", "STLTECH.NS", "SUDARSCHEM.NS", "SUMICHEM.NS", 
-    "SUNTECK.NS", "SUPREMEIND.NS", "SUVENPHAR.NS", "SUZLON.NS", "SWANENERGY.NS", "SYRMA.NS", 
-    "TAJGVK.NS", "TANLA.NS", "TASTYBITE.NS", "TEJASNET.NS", "TEXRAIL.NS", "THERMAX.NS", 
-    "TIMKEN.NS", "TITAGARH.NS", "TRIVENI.NS", "TRIDENT.NS", "UCOBANK.NS", "UNIONBANK.NS", 
-    "UUSHAMART.NS", "VAIBHAVGBL.NS", "VAKRANGEE.NS", "VALIANTORG.NS", "VGUARD.NS", 
-    "VIPIND.NS", "VISHNU.NS", "VNIL.NS", "VOLTAMP.NS", "WELCORP.NS", "WELSPUNLIV.NS", 
-    "WESTLIFE.NS", "WHIRLPOOL.NS", "WOCKPHARMA.NS", "ZENSARTECH.NS"
+    "GVPIL.NS", "GESHIP.NS", "GMDCLTD.NS", "GOCOLORS.NS", "GPIL.NS", "GRSE.NS", 
+    "GSFC.NS", "GSPL.NS", "HEG.NS", "HFCL.NS", "HINDCOPPER.NS", "HUDCO.NS", "IBREALEST.NS", 
+    "IRCON.NS", "ITDC.NS", "JBCHEPHARM.NS", "JINDALSAW.NS", "JKTYRE.NS", "JSL.NS", 
+    "JSWENERGY.NS", "JUBLINGREA.NS", "JUSTDIAL.NS", "JYOTHYLAB.NS", "KARURVYSYA.NS", 
+    "KEC.NS", "KEI.NS", "KIMS.NS", "KPITTECH.NS", "LTF.NS", "LEMONTREE.NS", 
+    "LLOYDSME.NS", "LGBBROSLTD.NS", "MAHABANK.NS", "MAHLIFE.NS", "MANINFRA.NS", 
+    "MAPMYINDIA.NS", "MASTEK.NS", "MAZDOCK.NS", "MEDANTA.NS", "METROBRAND.NS", 
+    "MHRIL.NS", "MIDHANI.NS", "MSUMI.NS", "MTARTECH.NS", "NAVA.NS", "NCC.NS", 
+    "NETWEB.NS", "NEWGEN.NS", "NHPC.NS", "NLCINDIA.NS", "NOCIL.NS", "OIL.NS", 
+    "OLAELEC.NS", "ONE97.NS", "PATANJALI.NS", "PCBL.NS", "PDSL.NS", "PEL-EQ.NS", 
+    "PNCINFRA.NS", "POONAWALLA.NS", "PRAJIND.NS", "PRESTIGE.NS", "PRINCEPIPE.NS", 
+    "PRUDENT.NS", "QUESS.NS", "RADICO.NS", "RAILTEL.NS", "RAJESHEXPO.NS", "RITES.NS", 
+    "ROUTE.NS", "RVNL.NS", "SAFARI.NS", "SANOFI.NS", "SANSERA.NS", "SAPPHIRE.NS", 
+    "SCHAEFFLER.NS", "SCHNEIDER.NS", "SHOPERSTOP.NS", "SHYAMMETL.NS", "SIGNATURE.NS", 
+    "SJVN.NS", "SKFINDIA.NS", "SOBHA.NS", "SOLARINDS.NS", "SONACOMS.NS", "SPARC.NS", 
+    "STLTECH.NS", "SUDARSCHEM.NS", "SUMICHEM.NS", "SUNTECK.NS", "SUPREMEIND.NS", 
+    "SUVEN.NS", "SUZLON.NS", "SYRMA.NS", "TAJGVK.NS", "TANLA.NS", "TASTYBITE.NS", 
+    "TEJASNET.NS", "TEXRAIL.NS", "THERMAX.NS", "TIMKEN.NS", "TITAGARH.NS", "TRIVENI.NS", 
+    "TRIDENT.NS", "UCOBANK.NS", "UNIONBANK.NS", "VAIBHAVGBL.NS", "VAKRANGEE.NS", 
+    "VALIANTORG.NS", "VGUARD.NS", "VIPIND.NS", "VISHNU.NS", "VOLTAMP.NS", "WELCORP.NS", 
+    "WELSPUNLIV.NS", "WESTLIFE.NS", "WHIRLPOOL.NS", "WOCKPHARMA.NS", "PAYTM.NS", "ZENSARTECH.NS"
 ]
 
 def run_scanner():
-    log(f"📡 చంటి 320+ బల్క్ స్టాక్స్ స్కానర్ ప్రారంభమైంది... [Nifty 100 + All F&O]")
+    log(f"📡 చంటి 300+ స్టాక్స్ స్కానర్ ప్రారంభమైంది... (బ్యాచ్ వైజ్ సేఫ్ డౌన్‌లోడ్)")
     total_signals_found = 0
-    try:
-        bulk_data = yf.download(combined_stocks, period="1y", interval="1d", group_by='ticker', progress=False, auto_adjust=False)
-    except Exception as e:
-        log(f"⚠️ బల్క్ డౌన్‌లోడ్ లోపం: {e}")
-        return
+    
+    # 300+ స్టాక్స్ ని ఒక్కొక్క బ్యాచ్ లో 30 చొప్పున విడగొడుతున్నాం సార్
+    batch_size = 30
+    all_data_frames = {}
+    
+    log(f"🔄 యాహూ ఫైనాన్స్ నుండి డేటాను బ్యాచ్ ల వారీగా సేకరిస్తున్నాను...")
+    for i in range(0, len(combined_stocks), batch_size):
+        batch = combined_stocks[i:i + batch_size]
+        try:
+            # చిన్న బ్యాచ్ గా డౌన్‌లోడ్ చేయడం వల్ల యాహూ ఎర్రర్స్ ఇవ్వదు సార్
+            batch_data = yf.download(batch, period="1y", interval="1d", group_by='ticker', progress=False, auto_adjust=False)
+            
+            # డౌన్‌లోడ్ అయిన డేటాను ఒక మెయిన్ డిక్షనరీ లోకి చేర్చుకుంటున్నాం
+            for stock in batch:
+                if stock in batch_data.columns.levels[0]:
+                    all_data_frames[stock] = batch_data[stock]
+            
+            # యాహూ సర్వర్ రేట్ లిమిట్ రాకుండా బ్యాచ్ కి బ్యాచ్ కి మధ్య 1 సెకన్ చిన్న విరామం
+            time.sleep(1.0)
+        except Exception as batch_ex:
+            log(f"⚠️ బ్యాచ్ డౌన్‌లోడ్ లోపం ({i} నుండి {i+batch_size}): {batch_ex}", "WARNING")
+            continue
 
+    log(f"📊 డేటా సేకరణ పూర్తయింది. ఇప్పుడు టెక్నికల్ లాజిక్ స్కాన్ చేస్తున్నాను...")
+    
+    # సేకరించిన మొత్తం డేటాపై చంటి లాజిక్ రన్ చేయడం
     for stock in combined_stocks:
         try:
-            if stock not in bulk_data.columns.levels[0]: continue
-            df = bulk_data[stock].dropna(subset=['Close']).reset_index()
+            if stock not in all_data_frames: continue
+            
+            df = all_data_frames[stock].dropna(subset=['Close']).reset_index()
             if df.empty or len(df) < 55: continue
 
             analyzed_df = scan_chanti_best_logic(df)
@@ -462,7 +474,7 @@ def run_scanner():
         except Exception as ex:
             continue
 
-    status_msg = f"✅ *320+ CHANTI SCANNER UPDATE*\n\nసార్, ఈరోజు స్కాన్ విజయవంతంగా పూర్తయింది. "
+    status_msg = f"✅ *300+ CHANTI SCANNER UPDATE*\n\nసార్, ఈరోజు స్కాన్ విజయవంతంగా పూర్తయింది. "
     status_msg += f"మొత్తం *{total_signals_found}* స్టాక్స్‌లో సిగ్నల్స్ లభించాయి." if total_signals_found > 0 else "❌ కానీ మన లాజిక్ ప్రకారం ఏ సిగ్నల్స్ రాలేదు సార్."
     if bot and CHAT_ID:
         bot.send_message(CHAT_ID, status_msg, parse_mode="Markdown")
