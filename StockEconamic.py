@@ -156,14 +156,41 @@ def fetch_and_save_daily_events(is_startup=False):
 def send_master_list_to_telegram(is_startup=False):
     if not bot or not CHAT_ID or not TODAY_EVENTS_STORE: return
     today_str = datetime.now(IST).strftime("%d-%B-%Y")
+    
     header = f"📅 **ఈరోజు ఆర్థిక ఈవెంట్స్ మాస్టర్ లిస్ట్ ({today_str}):**\n\n"
-    current_chunk = header + "-----------------------------\n"
+    current_chunk = header
+    
+    # దేశాల వారీగా జెండాల మ్యాపింగ్ సార్
+    flag_map = {"IN": "🇮🇳", "US": "🇺🇸", "JP": "🇯🇵", "CN": "🇨🇳", "EU": "🇪🇺"}
+    
     for ev in TODAY_EVENTS_STORE:
-        event_msg = f"📅 తేదీ: {ev['date_display']} | ⏰ IST టైమ్: {ev['time_display']} | 🌑 {ev['country']} {ev['stars']}\n📝 ఈవెంట్: {ev['event']}\n📊 Actual: {ev['actual']} | Forecast: {ev['forecast']} | Prev: {ev['previous']}\n-----------------------------\n"
+        # దేశం కోడ్ బట్టి జెండా ఎమోజీ తీసుకుంటుంది సార్
+        flag = flag_map.get(ev['country'], "🌍")
+        
+        # స్టార్స్ బట్టి ఇంపాక్ట్ టెక్స్ట్/ఎమోజీ సెట్ చేస్తున్నాం
+        if len(ev['stars']) >= 3:
+            impact_str = "🧡 High"
+        elif len(ev['stars']) == 2:
+            impact_str = "💜 Medium"
+        else:
+            impact_str = "💚 Low"
+            
+        # 🌟 మీరు పంపిన ఇమేజ్ డిజైన్ ప్రకారం పక్కాగా ఇక్కడ సెట్ చేశాను సార్
+        event_msg = (
+            f"📆 **{ev['date_display']}, {ev['time_display']}**\n"
+            f"{flag} **{ev['country']}** | {ev['event']}\n"
+            f"📝 **వివరణ:** {ev['event']}\n"
+            f"✅ **Actual:** {ev['actual'] if ev['actual'] else 'Waiting... ⏳'} | **Est:** {ev['forecast'] if ev['forecast'] else 'N/A'} | **Prev:** {ev['previous'] if ev['previous'] else 'N/A'}\n"
+            f"🔥 **ఇంపాక్ట్:** {impact_str}\n"
+            f"-----------------------------------------\n"
+        )
+        
         if len(current_chunk) + len(event_msg) > 3800:
             bot.send_message(CHAT_ID, current_chunk, parse_mode="Markdown")
-            current_chunk = "-----------------------------\n" + event_msg
-        else: current_chunk += event_msg
+            current_chunk = event_msg
+        else: 
+            current_chunk += event_msg
+            
     current_chunk += "\n*ప్రతి ఈవెంట్ సమయానికి మీకు లైవ్ అలర్ట్ వస్తుంది సార్!*"
     bot.send_message(CHAT_ID, current_chunk, parse_mode="Markdown")
 
