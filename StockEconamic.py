@@ -66,11 +66,14 @@ def fetch_and_save_daily_events(is_startup=False):
     date_query = today_raw.strftime("%Y-%m-%d")
     today_date_str = today_raw.strftime("%d-%b")
     
+    # 🔥 మరుసటి రోజు డేట్‌ను లెక్కగడుతున్నాం సార్
+    tomorrow_query = (today_raw + timedelta(days=1)).strftime("%Y-%m-%d")
+    
     # శని, ఆదివారాలు చెక్ చేయడం
     is_weekend = today_raw.weekday() >= 5
     
     scraper = cloudscraper.create_scraper(browser={'browser': 'chrome', 'platform': 'windows', 'desktop': True})
-    url = f"https://www.investing.com/economic-calendar/?timeZone=58&start_date={date_query}&end_date={date_query}"
+    url = f"https://www.investing.com/economic-calendar/?timeZone=58&start_date={date_query}&end_date={tomorrow_query}"
     
     try:
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", "Accept-Language": "en-US,en;q=0.9"}
@@ -83,7 +86,7 @@ def fetch_and_save_daily_events(is_startup=False):
             if next_data_script:
                 json_data = json.loads(next_data_script.string)
                 raw_events = find_events_in_json(json_data)
-                country_map = {"INDIA": "IN", "UNITED STATES": "US", "JAPAN": "JP", "CHINA": "CH/CN", "EURO ZONE": "EU"}
+                country_map = {"INDIA": "IN", "UNITED STATES": "US", "JAPAN": "JP", "CHINA": "CN", "EUROPEAN UNION": "EU",}
                 
                 for ev in raw_events:
                     country_name = str(ev.get("country", "")).strip().upper()
@@ -91,6 +94,13 @@ def fetch_and_save_daily_events(is_startup=False):
                     for key, code in country_map.items():
                         if key in country_name: matched_code = code; break
                     if matched_code:
+                        
+                        # 🔥 🌟 ఇక్కడ మీ ఒరిజినల్ స్ట్రక్చర్‌కు ఫిల్టర్ లాజిక్ యాడ్ చేశాం సార్!
+                        # importance 2 లేదా 3 అయితేనే ముందుకు వెళ్తుంది, 1-స్టార్ ని వదిలేస్తుంది.
+                        event_importance = str(ev.get("importance", "1")).strip()
+                        if event_importance not in ["2", "3"]:
+                            continue
+                        
                         raw_time = ev.get("time", "")
                         if raw_time and "T" in raw_time:
                             try:
@@ -98,17 +108,30 @@ def fetch_and_save_daily_events(is_startup=False):
                                 utc_dt = datetime.strptime(time_part, "%Y-%m-%dT%H:%M:%S")
                                 event_ist_dt = IST.localize(utc_dt + timedelta(hours=5, minutes=30))
                                 
+                                # 🔥 ఇక్కడ మార్పు చేశాం సార్! IST సమయాన్ని బట్టి తేదీ ఆటోమేటిక్‌గా మారుతుంది.
+                                event_date_str = event_ist_dt.strftime("%d-%b")
+                                
                                 stars = "⭐" * int(ev.get("importance", "1")) if str(ev.get("importance", "")).isdigit() else "⭐"
                                 event_name = ev.get("event", "Unknown Event")
-                                event_key = f"{today_date_str}_{event_ist_dt.strftime('%H:%M')}_{event_name}"
+                                
+                                # 🔥 ఇక్కడ కూడా మారిన తేదీ (event_date_str) అప్‌డేట్ చేసాం సార్.
+                                event_key = f"{event_date_str}_{event_ist_dt.strftime('%H:%M')}_{event_name}"
                                 
                                 if not any(e['key'] == event_key for e in temp_store):
                                     temp_store.append({
-                                        "key": event_key, "datetime": event_ist_dt, "time_str": event_ist_dt.strftime("%H:%M"),
-                                        "time_display": event_ist_dt.strftime("%I:%M %p"), "date_display": today_date_str,
-                                        "country": matched_code, "event": event_name, "stars": stars,
-                                        "actual": ev.get("actual", ""), "forecast": ev.get("forecast", ""),
-                                        "previous": ev.get("previous", ""), "link": f"https://www.investing.com{ev.get('url', '/economic-calendar/')}", "alerted": False
+                                        "key": event_key, 
+                                        "datetime": event_ist_dt, 
+                                        "time_str": event_ist_dt.strftime("%H:%M"),
+                                        "time_display": event_ist_dt.strftime("%I:%M %p"), 
+                                        "date_display": event_date_str, # 🔥 ఇక్కడ ఫిక్స్‌డ్ డేట్ కాకుండా లైవ్ డేట్ వస్తుంది.
+                                        "country": matched_code, 
+                                        "event": event_name, 
+                                        "stars": stars,
+                                        "actual": ev.get("actual", ""), 
+                                        "forecast": ev.get("forecast", ""),
+                                        "previous": ev.get("previous", ""), 
+                                        "link": f"https://www.investing.com{ev.get('url', '/economic-calendar/')}", 
+                                        "alerted": False
                                     })
                             except: pass
                             
@@ -460,7 +483,7 @@ if __name__ == "__main__":
     
     scheduler = BackgroundScheduler(timezone="Asia/Kolkata")
     # ప్రతి రోజు రాత్రి కరెక్ట్‌గా 12:05 AM (00:05) కి కొత్త ఎకనామిక్ డేటా లేదా వీకెండ్ అలర్ట్ లోడ్ అవుతుంది
-    scheduler.add_job(fetch_and_save_daily_events, 'cron', hour=0, minute=5, args=[False])
+    scheduler.add_job(fetch_and_save_daily_events, 'cron', hour=5, minute=35, args=[False])
     # ప్రతి 1 నిమిషానికి బ్యాక్‌గ్రౌండ్‌లో టైమ్ చెక్ చేసి ఎకనామిక్ ఈవెంట్స్ లైవ్ అలర్ట్ పంపుతుంది
     scheduler.add_job(check_and_trigger_live_alerts, 'interval', minutes=1)
     # 🚀 --- ప్రతి గంటకు (Hourly) కరెక్ట్‌గా ఒక హార్ట్‌బీట్ మెసేజ్ మీకు పంపుతుంది సార్ ---
